@@ -1,1 +1,8 @@
 
+# 5. Convert results to a clean DataFrame for ranking     
+df_comparison = pd.DataFrame(cv_results_summary).T        
+print(df_comparison.sort_values(by="Mean F1-Score", ascend
+df_sorted = df_comparison.sort_values(by="Mean F1-Score", 
+                                                          
+# Write to Excel using openpyxl engine                    
+df_sorted.to_excel("model_performance.xlsx", index=True)  
