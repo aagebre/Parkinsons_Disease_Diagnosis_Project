@@ -1,1 +1,86 @@
-    01_data_exploration.ipynb
+  # Objective
+ To build a predictive model that can accurately identify the presence of Parkinson's disease based on biomedical voice measurements, which can assist healthcare professionals in the early diagnosis and treatment of the disease.
+
+**Data Loading and Exploration**
+
+# Parkinson’s Disease Data Set Information
+The dataset for a Parkinson's project was obtained from the UC Irvine Machine Learning Repository (https://archive.ics.uci.edu/dataset/174/parkinsons). 
+This dataset is composed of a range of biomedical voice measurements from 31 people, 23 with Parkinson's disease (PD). Each column in the table is a 
+particular voice measure, and each row corresponds to one of 195 voice recordings from these individuals ("name" column). It contains a total of 
+24 columns (22 predictive features, name and status). The main aim of the data is to discriminate healthy people from those with PD, 
+according to the "status" column, which is set to 0 for healthy and 1 for PD.  
+
+**Importing important python libraries**
+import numpy as np #numpy
+import pandas as pd #pandas
+import matplotlib.pyplot as plt #matplot 
+import seaborn as sns #seaborn for data visualization
+
+**Data Inspection**
+df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/parkinsons/parkinsons.data')#Loading the CSV data file
+df.head()#Displaying the first few rows of the dataset to understand its structure
+df.shape #Checking the dimensions of the dataset to understand its size
+df.info()#Obtaining a summary of the dataset, including data types and non-null counts
+df.isnull().sum()#Checking for missing values in the dataset to ensure data completeness
+df.describe()#Generating descriptive statistics to understand the distribution and central tendency of the data
+df['status'].value_counts()#Counting the number of instances for each class in the 'status' column to understand the distribution of the target variable
+
+**Exploratory Data Analysis**
+
+# Separate features (X) and target (y)
+X = df.drop(columns=['name', 'status']) # 'name' is just an identifier, 'status' is the target
+y = df['status']
+print(X)
+
+# Calculating the correlation matrix to understand the relationships between features
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+correlation_matrix = X.corr()
+plt.figure(figsize=(15,10))
+sns.heatmap(correlation_matrix, annot=True, cmap="coolwarm", fmt=".2f")
+plt.title('Correlation Matrix of Features')
+plt.show(block=True)
+
+#Analyzing the distribution of the target variable (status) using a histogram
+
+ax = sns.countplot(x='Status', data=df) # Plot count
+total = len(df) # Calculate proportions
+
+for p in ax.patches: # Add percentage labels
+
+    height = p.get_height()
+
+    percentage = 100 * height / total
+
+    ax.annotate(f'{percentage:.1f}%',
+
+                (p.get_x() + p.get_width() / 2., height),
+
+                ha='center',
+
+                va='bottom',
+
+                fontsize=12)
+plt.title('Distribution of Status')
+
+plt.xlabel('Status')
+
+plt.ylabel('Count')
+
+plt.show(block=True)
+
+#Visualizing the distribution of each feature to understand their distributions
+features = X.columns
+num_features = len(features)
+num_rows = (num_features // 3) + (num_features % 3 > 0)  # Calculate the number of rows needed
+
+plt.figure(figsize=(15, 5 * num_rows))
+
+for i, feature in enumerate(features):
+    plt.subplot(num_rows, 3, i+1)
+    sns.histplot(X[feature], kde=True, color='black', bins=30)
+    plt.title(f'Distribution of {feature}')
+
+plt.tight_layout()
+plt.show(block=True)
