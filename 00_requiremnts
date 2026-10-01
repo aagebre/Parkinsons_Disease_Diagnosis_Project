@@ -1,1 +1,17 @@
+# Objective
+ To build a predictive model that can accurately identify the presence of Parkinson's disease based on biomedical voice measurements, which can assist healthcare professionals in the early diagnosis and treatment of the disease.
 
+**Data Loading and Exploration**
+
+# Parkinson’s Disease Data Set Information
+The dataset for a Parkinson's project was obtained from the UC Irvine Machine Learning Repository (https://archive.ics.uci.edu/dataset/174/parkinsons). 
+This dataset is composed of a range of biomedical voice measurements from 31 people, 23 with Parkinson's disease (PD). Each column in the table is a 
+particular voice measure, and each row corresponds to one of 195 voice recordings from these individuals ("name" column). It contains a total of 
+24 columns (22 predictive features, name and status). The main aim of the data is to discriminate healthy people from those with PD, 
+according to the "status" column, which is set to 0 for healthy and 1 for PD.  
+
+**Importing important python libraries**
+import numpy as np #numpy
+import pandas as pd #pandas
+import matplotlib.pyplot as plt #matplot 
+import seaborn as sns #seaborn for data visualization
