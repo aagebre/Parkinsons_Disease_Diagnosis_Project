@@ -1,1 +1,35 @@
 
+**Machine Learning Multi-Model Development Workflow**
+A reusable multi-model end-to-end machine learning pipeline was developed to systematically train, validate, and compare multiple 
+classification algorithms for Parkinson's disease prediction. 
+
+# Full Multi-Model Pipeline Code                                                                        
+from imblearn.over_sampling import SMOTE               
+from imblearn.pipeline import Pipeline                 
+from sklearn.preprocessing import StandardScaler       
+from sklearn.model_selection import StratifiedKFold, cr
+                                                       
+# Import the 8 classification algorithms               
+from sklearn.linear_model import LogisticRegression    
+from sklearn.neighbors import KNeighborsClassifier     
+from sklearn.svm import SVC                            
+from sklearn.naive_bayes import GaussianNB             
+from sklearn.tree import DecisionTreeClassifier        
+from sklearn.ensemble import RandomForestClassifier    
+from xgboost import XGBClassifier                      
+from sklearn.neural_network import MLPClassifier                                                                                                                                                  
+from sklearn.model_selection import train_test_split   
+
+# Data Preprocessing Step
+# 1. Perform the initial 80/20 train/test split           
+X_train, X_test, y_train, y_test = train_test_split(      
+    X, y, test_size=0.2, stratify=y, random_state=42      
+)  
+
+Visual Summary of the Proportions
+•	Original Dataset (100%)
+├── Initial Test Set (X_test) 20% — Completely untouched)
+└── Initial Training Set (X_train) (80%)
+└── 5-Fold CV Split:
+├── Train Folds (64% of total — Scaled + SMOTE applied here)
+└── Validation Fold (16% of total — Used to score the model)
