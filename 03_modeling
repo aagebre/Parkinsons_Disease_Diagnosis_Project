@@ -1,1 +1,47 @@
-
+# 2. Define the 8 algorithms                              
+models = {                                                
+    "Logistic Regression": LogisticRegression(max_iter=100
+    "K-Nearest Neighbors": KNeighborsClassifier(),        
+    "Support Vector Machine": SVC(probability=True, random
+    "Naive Bayes": GaussianNB(),                          
+    "Decision Tree": DecisionTreeClassifier(random_state=4
+    "Random Forest": RandomForestClassifier(random_state=4
+    "XGBoost": XGBClassifier(eval_metric='logloss', random
+    "Artificial Neural Network": MLPClassifier(max_iter=50
+}                                                         
+                                                          
+# 3. Setup Stratified K-Fold (keeps class balance identica
+cv_strategy = StratifiedKFold(n_splits=5, shuffle=True, ra
+                                                          
+# Dictionary to store mean CV metrics                     
+cv_results_summary = {}                                   
+                                                          
+# 4. Loop through each model using Cross-Validation       
+for name, model in models.items():                        
+    print(f"Evaluating {name} with 5-Fold CV...")         
+                                                          
+    # Define the template pipeline                        
+    pipeline = Pipeline([                                 
+        ('scaler', StandardScaler()),                     
+        ('smote', SMOTE(random_state=42)),                
+        ('classifier', model)                             
+    ])                                                    
+                                                          
+    # Run cross-validation on X_train and y_train         
+    # This automatically handles splitting, scaling, SMOTE
+    scores = cross_validate(                              
+        pipeline,                                         
+        X_train,                                          
+        y_train,                                          
+        cv=cv_strategy,                                   
+        scoring=['accuracy', 'precision_macro', 'recall_ma
+        n_jobs=-1  # Uses all CPU cores to speed up execut
+    )                                                     
+                                                          
+    # Store the average score across all 5 folds          
+    cv_results_summary[name] = {                          
+        "Mean Accuracy": scores['test_accuracy'].mean(),  
+        "Mean Precision": scores['test_precision_macro'].m
+        "Mean Recall": scores['test_recall_macro'].mean(),
+        "Mean F1-Score": scores['test_f1_macro'].mean()   
+    }   
